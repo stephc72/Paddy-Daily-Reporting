@@ -305,7 +305,7 @@
       <div class="submit-area">
         <div class="submit-note">File before you close for the day. Steph receives this immediately. Open tasks are included automatically.</div>
         <button class="btn-submit" onclick="submitReport()">FILE TONIGHT'S REPORT</button>
-        <button class="btn-gmail" onclick="sendGmail()">↗ SEND TO STEPH VIA GMAIL</button>
+        <<button class="btn-gmail" onclick="copyReport()">⧉ COPY REPORT</button>
       </div>
 
     </div>
@@ -563,9 +563,8 @@ function editReport() {
 }
 
 // ─── GMAIL ─────────────────────────────────────────────────────
-function sendGmail() {
+async function copyReport() {
   const d = gatherReport();
-  const subject = encodeURIComponent(`concept72 — Night Report · ${formatShort(d.date)}`);
 
   const spendLines = d.spends.length
     ? d.spends.map(s => `  ${s.desc}: $${s.amt.toFixed(2)}`).join('\n') + `\n  TOTAL: $${d.totalSpend.toFixed(2)}`
@@ -630,8 +629,12 @@ function sendGmail() {
     `concept72 · Patrick D'Alesio · Operations Manager`,
   ];
 
-  const body = encodeURIComponent(lines.join('\n'));
-  window.location.href = `mailto:steph@concept72.ca?subject=${subject}&body=${body}`;
+  try {
+    await navigator.clipboard.writeText(lines.join('\n'));
+    alert('Report copied to clipboard.');
+  } catch (err) {
+    alert('Copy failed on this device/browser.');
+  }
 }
 
 // ─── STREAK ────────────────────────────────────────────────────
