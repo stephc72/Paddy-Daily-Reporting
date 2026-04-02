@@ -631,7 +631,7 @@ function sendGmail() {
   ];
 
   const body = encodeURIComponent(lines.join('\n'));
-  window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=steph@concept72.ca&su=${subject}&body=${body}`, '_blank');
+  window.location.href = `mailto:steph@concept72.ca?subject=${subject}&body=${body}`;
 }
 
 // ─── STREAK ────────────────────────────────────────────────────
